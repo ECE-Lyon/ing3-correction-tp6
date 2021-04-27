@@ -10,8 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class AlbumDaoImpl implements AlbumDao {
-
-    private Connection connection;
+    private final Connection connection;
 
     public AlbumDaoImpl(Connection connection) {
         this.connection = connection;
@@ -35,10 +34,12 @@ public class AlbumDaoImpl implements AlbumDao {
         try (PreparedStatement statement = connection.prepareStatement("SELECT * FROM album WHERE title LIKE ?")) {
             // Ajout des wildcards
             statement.setString(1, "%" + query + "%");
+
             try (ResultSet resultSet = statement.executeQuery()) {
                 while (resultSet.next()) {
                     // Mapping du resultSet vers un objet Album
                     Album album = new Album();
+
                     album.setId(resultSet.getInt("id"));
                     album.setTitle(resultSet.getString("title"));
                     album.setArtistName(resultSet.getString("artist_name"));
@@ -55,26 +56,28 @@ public class AlbumDaoImpl implements AlbumDao {
 
     @Override
     public Album get(int id) throws SQLException {
-        Album album = null;
-
         try (PreparedStatement statement = connection.prepareStatement("SELECT * FROM album WHERE id=?")) {
             // Ajout des wildcards
             statement.setInt(1, id);
+
             try (ResultSet resultSet = statement.executeQuery()) {
                 // Ici on pourrait vérifier le nombre de lignes récupérées
                 // (devraient jamais être > 1 si on cherche par Id)
                 if (resultSet.next()) {
                     // Mapping du resultSet vers un objet Album
-                    album = new Album();
+                    Album album = new Album();
+
                     album.setId(resultSet.getInt("id"));
                     album.setTitle(resultSet.getString("title"));
                     album.setArtistName(resultSet.getString("artist_name"));
                     album.setReleaseYear(resultSet.getInt("release_year"));
+
+                    return album;
                 }
             }
         }
 
         // Retourne null si l'id n'existe pas en base
-        return album;
+        return null;
     }
 }

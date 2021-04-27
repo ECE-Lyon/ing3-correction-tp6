@@ -1,19 +1,10 @@
 package model;
 
-import java.util.StringJoiner;
-
 public class Album {
-
     private int id;
-
     private String title;
-
     private String artistName;
-
     private int releaseYear;
-
-    public Album() {
-    }
 
     public int getId() {
         return id;
@@ -49,11 +40,11 @@ public class Album {
 
     @Override
     public String toString() {
-        return new StringJoiner(", ", Album.class.getSimpleName() + "[", "]")
-            .add("id=" + id)
-            .add("title='" + title + "'")
-            .add("artistName='" + artistName + "'")
-            .add("releaseYear=" + releaseYear)
-            .toString();
+        return "Album{" +
+                "id=" + id +
+                ", title='" + title + '\'' +
+                ", artistName='" + artistName + '\'' +
+                ", releaseYear=" + releaseYear +
+                '}';
     }
 }

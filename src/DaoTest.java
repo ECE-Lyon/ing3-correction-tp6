@@ -11,10 +11,8 @@ import java.sql.SQLException;
 import java.util.List;
 
 public class DaoTest {
-
     public static void main(String[] args) throws SQLException {
-
-        try (Connection connection = DriverManager.getConnection("jdbc:mysql://192.168.1.21/tp6", "root", "root")) {
+        try (Connection connection = DriverManager.getConnection("jdbc:h2:./default")) {
             AlbumDao albumDao = new AlbumDaoImpl(connection);
 
             Album newAlbum = new Album();
